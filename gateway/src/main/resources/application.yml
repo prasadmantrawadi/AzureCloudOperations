@@ -1,0 +1,36 @@
+server:
+  port: 9090
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: doctorservice
+          uri: http://localhost:9091/
+          predicates:
+            - Path=/doctorservice/**
+        - id: patientservice
+          uri: http://localhost:9092/
+          predicates:
+            - Path=/patientservice/**
+  security:
+    oauth2:      client:        registration:          azure:
+            client-id: f06a7859-9168-484a-aa2d-1ec0eac08c6b
+            client-secret: axJ~~fop4gVm19VwDCu7rPtzA-M~LRm.5z
+            authorization-grant-type: authorization_code
+            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+        provider:          azure:
+            authorization-uri: https://login.microsoftonline.com/common/oauth2/authorize
+            token-uri: https://login.microsoftonline.com/common/oauth2/token
+            user-info-uri: https://login.microsoftonline.com/common/openid/userinfo
+            jwk-set-uri: https://login.microsoftonline.com/common/discovery/keys
+            user-name-attribute: name
+  
+  main:
+    allow-bean-definition-overriding: true
+                      
+azure:
+  activedirectory:
+    tenant-id: 4af8f35a-6fdc-4747-b5ac-16c244edbbdf
+    user-group:      allowed-groups: group1
+      
+        
